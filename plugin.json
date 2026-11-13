@@ -1,0 +1,141 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "cookcook",
+  "version": "1.2.0",
+  "description": "Find which cookbook has the recipe you want, look inside a cookbook's index, keep your own cookbook library, saved recipes and grocery list, add books from a photo of your bookshelf, and capture a recipe from a photo of the page.",
+  "author": {
+    "name": "Toy Division",
+    "email": "support@cookcook.app",
+    "url": "https://www.cookcook.app"
+  },
+  "homepage": "https://www.cookcook.app",
+  "keywords": [
+    "cookbooks",
+    "recipes",
+    "cooking",
+    "grocery list"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "CookCook",
+        "shortDescription": "Find recipes in your cookbooks",
+        "longDescription": "CookCook is a catalogue of cookbooks and the recipes in them. Ask which cookbook has a recipe for pumpkin soup, what's in the index of a book you're thinking of buying, or which recipes use the rhubarb in your fridge, and CookCook answers with the book, the page and the ingredients, with a link to the recipe on CookCook.\n\nConnect your CookCook account to cook from your own shelf: search only the cookbooks you own, see the recipes you saved, read your own captured recipes, add ingredients to your grocery list, organise recipes and books in collections, and save, rate or log a tasting of a recipe from the conversation.\n\nTwo things start from a photograph. Show CookCook a picture of your bookshelf and the books it can read are matched against the catalogue and added to your shelf, once you have confirmed the list. Photograph a recipe page from a book you own and it is transcribed into your own captured recipe, with its ingredient lines and method, ready for your grocery list.\n\nCookCook is for home cooks with a shelf of cookbooks and anyone looking for the right book. Searching the catalogue needs no account. CookCook knows each recipe's title, page and ingredient names, not its method or quantities: those are in the book itself.",
+        "developerName": "Toy Division",
+        "category": "Productivity",
+        "capabilities": [
+          "Find which cookbooks have a recipe for a dish or ingredient",
+          "Show a cookbook's details and its recipe index with page numbers",
+          "Search the recipes in the cookbooks you own",
+          "Plan a week of meals or a menu for guests from your cookbooks, with book and page for every dish",
+          "Show your saved recipes, collections and grocery list",
+          "Add ingredients to your grocery list",
+          "Save, like, rate and log tastings of recipes",
+          "Add cookbooks to your library or wishlist",
+          "Add the cookbooks on a photo of your bookshelf to your library",
+          "Capture a recipe from a photo of the page in a book you own, catalogued or not"
+        ],
+        "websiteURL": "https://www.cookcook.app",
+        "supportURL": "https://www.cookcook.app/support",
+        "privacyPolicyURL": "https://www.cookcook.app/privacy",
+        "termsOfServiceURL": "https://www.cookcook.app/terms",
+        "defaultPrompt": [
+          "Which cookbooks have a recipe for pumpkin soup?",
+          "What can I cook with leeks from the cookbooks I own?",
+          "Plan three dinners for this week from the cookbooks I own.",
+          "Here's a photo of my bookshelf — add these cookbooks to my library.",
+          "I photographed this recipe from my copy of Ottolenghi Comfort; capture it for me."
+        ],
+        "brandColor": "#01B86B",
+        "brandColorDark": "#01B86B",
+        "logo": "./assets/logo.png"
+      },
+      "onboardingSkill": "./skills/get-started/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Find recipes for a dish across the catalogue, signed out",
+              "prompt": "Which cookbooks have a recipe for pumpkin soup?",
+              "tools_triggered": "search_recipes",
+              "expected_behavior": "Lists recipes such as \"Pumpkin soup\" in Heston Blumenthal At Home (p. 61), each with its book, page numbers and a link to the recipe on cookcook.app. No sign-in is asked for."
+            },
+            {
+              "description": "Look inside a cookbook's index",
+              "prompt": "What recipes are in Heston Blumenthal At Home?",
+              "tools_triggered": "search_books, get_book",
+              "expected_behavior": "Finds the book and shows its authors, publisher and year with its recipe index (titles and page numbers) and a link to the book on cookcook.app."
+            },
+            {
+              "description": "Search the cookbooks the user owns, signed in",
+              "prompt": "What can I cook with leeks from the cookbooks I own?",
+              "tools_triggered": "search_my_books",
+              "expected_behavior": "Asks the reviewer to connect their CookCook account if not yet connected, then lists leek recipes from the books in the test account's library (Heston Blumenthal At Home and The Contemporary African Kitchen), such as \"Leek and potato soup\" (p. 56), with book and page."
+            },
+            {
+              "description": "Save a recipe to the user's Want to cook list",
+              "prompt": "Save the pumpkin soup from Heston Blumenthal At Home to my Want to cook list.",
+              "tools_triggered": "search_recipes, save_recipe",
+              "expected_behavior": "Finds the recipe, saves it after the user confirms, and reports it saved. my_saved_recipes then includes it."
+            },
+            {
+              "description": "Add items to the user's grocery list",
+              "prompt": "Add 2 leeks and 500 g pumpkin to my grocery list.",
+              "tools_triggered": "add_to_grocery_list",
+              "expected_behavior": "Adds exactly those two items with their quantities after the user confirms, and reports that 2 items were added. get_grocery_list then shows them."
+            },
+            {
+              "description": "Add the books on a photo of a bookshelf to the user's library",
+              "prompt": "Here's a photo of my bookshelf — add these cookbooks to my library. [attach a photo of a cookbook shelf with Heston Blumenthal At Home and The Contemporary African Kitchen on it]",
+              "tools_triggered": "match_shelf_books, add_books_to_library",
+              "expected_behavior": "Reads the spines from the photo itself and lists the titles it read, then matches them and reports what was found, what matched nothing and how many spines were illegible, with each found book's cover and cookcook.app link. It asks before adding, and only after the reviewer confirms does it add them; my_books then includes them. No title is invented for a spine that cannot be read."
+            },
+            {
+              "description": "Capture a recipe from a photo of the page in a book the user owns",
+              "prompt": "I photographed this recipe from my copy of Heston Blumenthal At Home; capture it for me. [attach a photo of a recipe page]",
+              "tools_triggered": "my_books, capture_recipe",
+              "expected_behavior": "Transcribes the title as printed, the page number from the page, the ingredient lines word for word with the book's own amounts, and the method, and asks for another photo of anything it cannot read, or for the user to read it out, instead of guessing or saving a placeholder. It settles which book the page came from — asking, and looking on the reviewer's own shelf first — then shows the whole transcription for checking and captures it only after the reviewer confirms, reporting it as the reviewer's own pending capture with its CookCook link. get_my_recipe then returns it."
+            },
+            {
+              "description": "Capture a recipe from a book that is not in CookCook's catalogue",
+              "prompt": "This is from a little community cookbook my aunt's village printed — capture the recipe for me. [attach a photo of a recipe page]",
+              "tools_triggered": "search_books, capture_recipe, add_books_to_library, link_recipe_to_book",
+              "expected_behavior": "Transcribes the page, asks which book it is from, and when the book turns out not to be in CookCook says so plainly and captures the recipe anyway with no book attached, so nothing is lost. It then offers to add the book from its ISBN or a photo of the cover and, once added, attaches the capture with link_recipe_to_book. No ISBN, title or page number is invented at any point, and no “[unreadable]” placeholder is ever saved into the ingredients or the method."
+            },
+            {
+              "description": "A recipe photo with a line that cannot be read",
+              "prompt": "Capture this recipe from my cookbook. [attach a photo of a recipe page where one ingredient line is blurred or cut off]",
+              "tools_triggered": "my_books, capture_recipe",
+              "expected_behavior": "Transcribes what it can read, says plainly which line it cannot, and asks for another photo of that part or for the reviewer to read the line out. It does not guess the amount and does not save a placeholder in its place; capture_recipe is called only once every line is something that was read or that the reviewer supplied. If the reviewer declines to supply it, nothing is saved and it says so."
+            },
+            {
+              "description": "Plan a menu from the user's own cookbooks, signed in",
+              "prompt": "Plan three vegetarian dinners for this week from the cookbooks I own.",
+              "tools_triggered": "search_my_books, get_recipe",
+              "expected_behavior": "Searches the recipes in the user's own cookbooks and proposes three dinners in a table, each with the recipe title, its book, the page number and links to cookcook.app, and a line on why it was chosen. It says the vegetarian check rests on ingredient names and that methods and quantities are in the books. Nothing is added to the grocery list or saved unless the user asks."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Restaurant booking is outside CookCook",
+              "prompt": "Book me a table at an Italian restaurant in Amsterdam tonight."
+            },
+            {
+              "description": "CookCook does not sell or order books in ChatGPT",
+              "prompt": "Buy Ottolenghi Comfort for me and have it delivered tomorrow."
+            },
+            {
+              "description": "Account deletion is not a tool",
+              "prompt": "Delete my CookCook account."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "CookCook sells nothing in ChatGPT. Its answers link to CookCook's own book and recipe pages; there are no checkout or cart links."
+      },
+      "publication": {
+        "release_notes": "Adds menu planning: a week of dinners or a menu for guests from the cookbooks you own, with the book and page for every dish, and the ingredients on your grocery list when you ask for them."
+      }
+    }
+  }
+}
