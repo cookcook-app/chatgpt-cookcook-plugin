@@ -12,8 +12,9 @@ CookCook is a catalogue of cookbooks and the recipes in them: each book's index,
 
 - "Which cookbook has a recipe for pumpkin soup?" → `search_recipes` with the dish or ingredient. Answer with each recipe's title, its book and page, and link to the recipe's CookCook URL.
 - "What's in *Ottolenghi Comfort*?" → `search_books` to find the book, then `get_book` for its details and recipe index.
-- `get_recipe` gives one recipe's ingredient names and its book.
-- CookCook gives the title, page and ingredients of a recipe, not its method or quantities: those are in the book. Point the user to the book and the page.
+- `get_recipe` gives one recipe's ingredients and its book. For a signed-in user, and for many recipes, the ingredients are the full lines with quantities and the yield (`quantities: true`); otherwise their names.
+- CookCook never gives a book's method: point the user to the book and the page. Never make up a quantity CookCook did not give.
+- A signed-out user who asks for quantities: call `get_my_recipe`, which asks them to connect their CookCook account or create one.
 - Ingredient names do not prove a dish is safe for an allergy, vegan or gluten-free. Say what the ingredient list shows and send the user to the book when a restriction is strict.
 - Show a book's cover (`cover_image_url`) beside it when you can display images, and always link to the CookCook URL of the books and recipes you mention.
 
@@ -23,7 +24,7 @@ These tools need the user to connect their CookCook account; ChatGPT asks them t
 
 - "What can I cook with leeks from my books?" → `search_my_books` searches the recipes in the cookbooks they own. Prefer it over `search_recipes` when they ask what they can cook.
 - `my_books`, `my_saved_recipes`, `my_collections` and `get_collection` show their library.
-- `get_my_recipe` gives their own copy of a recipe, with the method when they captured it or hold the book as an ebook.
+- `get_my_recipe` gives their own copy of a recipe, with the method when they captured it or hold the book as an ebook, and otherwise with the quantities when CookCook has them.
 - `get_grocery_list` and `add_to_grocery_list` work on their grocery list. Add only what they asked for.
 - `save_recipe`, `like_recipe`, `rate_recipe`, `mark_cooked`, `log_tasting`, `add_to_my_books`, `wishlist_book`, `like_book`, `rate_book`, `comment_on_book`, `create_collection`, `add_to_collection` and `remove_from_collection` change their library, as the buttons on CookCook do. Use them only when the user asks, and never make up ratings, notes or comments.
 

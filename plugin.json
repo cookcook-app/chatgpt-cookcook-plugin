@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "cookcook",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Find which cookbook has the recipe you want, look inside a cookbook's index, keep your own cookbook library, saved recipes and grocery list, add books from a photo of your bookshelf, and capture a recipe from a photo of the page.",
   "author": {
     "name": "Toy Division",
@@ -21,7 +21,7 @@
       "interface": {
         "displayName": "CookCook",
         "shortDescription": "Find recipes in your cookbooks",
-        "longDescription": "CookCook is a catalogue of cookbooks and the recipes in them. Ask which cookbook has a recipe for pumpkin soup, what's in the index of a book you're thinking of buying, or which recipes use the rhubarb in your fridge, and CookCook answers with the book, the page and the ingredients, with a link to the recipe on CookCook.\n\nConnect your CookCook account to cook from your own shelf: search only the cookbooks you own, see the recipes you saved, read your own captured recipes, add ingredients to your grocery list, organise recipes and books in collections, and save, rate or log a tasting of a recipe from the conversation.\n\nTwo things start from a photograph. Show CookCook a picture of your bookshelf and the books it can read are matched against the catalogue and added to your shelf, once you have confirmed the list. Photograph a recipe page from a book you own and it is transcribed into your own captured recipe, with its ingredient lines and method, ready for your grocery list.\n\nCookCook is for home cooks with a shelf of cookbooks and anyone looking for the right book. Searching the catalogue needs no account. CookCook knows each recipe's title, page and ingredient names, not its method or quantities: those are in the book itself.",
+        "longDescription": "CookCook is a catalogue of cookbooks and the recipes in them. Ask which cookbook has a recipe for pumpkin soup, what's in the index of a book you're thinking of buying, or which recipes use the rhubarb in your fridge, and CookCook answers with the book, the page and the ingredients, with a link to the recipe on CookCook.\n\nConnect your CookCook account to cook from your own shelf: search only the cookbooks you own, see the recipes you saved, read your own captured recipes, add ingredients to your grocery list, organise recipes and books in collections, and save, rate or log a tasting of a recipe from the conversation.\n\nTwo things start from a photograph. Show CookCook a picture of your bookshelf and the books it can read are matched against the catalogue and added to your shelf, once you have confirmed the list. Photograph a recipe page from a book you own and it is transcribed into your own captured recipe, with its ingredient lines and method, ready for your grocery list.\n\nCookCook is for home cooks with a shelf of cookbooks and anyone looking for the right book. Searching the catalogue needs no account. CookCook knows each recipe's title, page and ingredients, and for many recipes gives the quantities once you connect your account. The method stays in the book itself.",
         "developerName": "Toy Division",
         "category": "Productivity",
         "capabilities": [
