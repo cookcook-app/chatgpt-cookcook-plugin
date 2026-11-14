@@ -1,6 +1,7 @@
 ---
 name: get-started
-description: Find which cookbook has a recipe, look inside a cookbook's index, and work with the user's own CookCook library — the books they own, saved recipes, collections and grocery list. Also covers the two things that start from a photo: reading the spines on a picture of their bookshelf to add those books, and transcribing a photographed recipe page into their own captured recipe, including from a book CookCook does not have.
+description: >-
+  Find which cookbook has a recipe, look inside a cookbook's index, and work with the user's own CookCook library — the books they own, saved recipes, collections and grocery list. Also covers the two things that start from a photo: reading the spines on a picture of their bookshelf to add those books, and transcribing a photographed recipe page into their own captured recipe, including from a book CookCook does not have.
 ---
 
 # CookCook

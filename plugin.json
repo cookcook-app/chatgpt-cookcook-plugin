@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "cookcook",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Find which cookbook has the recipe you want, look inside a cookbook's index, keep your own cookbook library, saved recipes and grocery list, add books from a photo of your bookshelf, and capture a recipe from a photo of the page.",
   "author": {
     "name": "Toy Division",
@@ -15,6 +15,7 @@
     "cooking",
     "grocery list"
   ],
+  "license": "MIT",
   "extensions": {
     "com.openai": {
       "interface": {
@@ -42,13 +43,12 @@
         "defaultPrompt": [
           "Which cookbooks have a recipe for pumpkin soup?",
           "What can I cook with leeks from the cookbooks I own?",
-          "Plan three dinners for this week from the cookbooks I own.",
-          "Here's a photo of my bookshelf — add these cookbooks to my library.",
-          "I photographed this recipe from my copy of Ottolenghi Comfort; capture it for me."
+          "Plan three dinners for this week from the cookbooks I own."
         ],
         "brandColor": "#01B86B",
         "brandColorDark": "#01B86B",
-        "logo": "./assets/logo.png"
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png"
       },
       "onboardingSkill": "./skills/get-started/SKILL.md",
       "review": {
@@ -83,36 +83,6 @@
               "prompt": "Add 2 leeks and 500 g pumpkin to my grocery list.",
               "tools_triggered": "add_to_grocery_list",
               "expected_behavior": "Adds exactly those two items with their quantities after the user confirms, and reports that 2 items were added. get_grocery_list then shows them."
-            },
-            {
-              "description": "Add the books on a photo of a bookshelf to the user's library",
-              "prompt": "Here's a photo of my bookshelf — add these cookbooks to my library. [attach a photo of a cookbook shelf with Heston Blumenthal At Home and The Contemporary African Kitchen on it]",
-              "tools_triggered": "match_shelf_books, add_books_to_library",
-              "expected_behavior": "Reads the spines from the photo itself and lists the titles it read, then matches them and reports what was found, what matched nothing and how many spines were illegible, with each found book's cover and cookcook.app link. It asks before adding, and only after the reviewer confirms does it add them; my_books then includes them. No title is invented for a spine that cannot be read."
-            },
-            {
-              "description": "Capture a recipe from a photo of the page in a book the user owns",
-              "prompt": "I photographed this recipe from my copy of Heston Blumenthal At Home; capture it for me. [attach a photo of a recipe page]",
-              "tools_triggered": "my_books, capture_recipe",
-              "expected_behavior": "Transcribes the title as printed, the page number from the page, the ingredient lines word for word with the book's own amounts, and the method, and asks for another photo of anything it cannot read, or for the user to read it out, instead of guessing or saving a placeholder. It settles which book the page came from — asking, and looking on the reviewer's own shelf first — then shows the whole transcription for checking and captures it only after the reviewer confirms, reporting it as the reviewer's own pending capture with its CookCook link. get_my_recipe then returns it."
-            },
-            {
-              "description": "Capture a recipe from a book that is not in CookCook's catalogue",
-              "prompt": "This is from a little community cookbook my aunt's village printed — capture the recipe for me. [attach a photo of a recipe page]",
-              "tools_triggered": "search_books, capture_recipe, add_books_to_library, link_recipe_to_book",
-              "expected_behavior": "Transcribes the page, asks which book it is from, and when the book turns out not to be in CookCook says so plainly and captures the recipe anyway with no book attached, so nothing is lost. It then offers to add the book from its ISBN or a photo of the cover and, once added, attaches the capture with link_recipe_to_book. No ISBN, title or page number is invented at any point, and no “[unreadable]” placeholder is ever saved into the ingredients or the method."
-            },
-            {
-              "description": "A recipe photo with a line that cannot be read",
-              "prompt": "Capture this recipe from my cookbook. [attach a photo of a recipe page where one ingredient line is blurred or cut off]",
-              "tools_triggered": "my_books, capture_recipe",
-              "expected_behavior": "Transcribes what it can read, says plainly which line it cannot, and asks for another photo of that part or for the reviewer to read the line out. It does not guess the amount and does not save a placeholder in its place; capture_recipe is called only once every line is something that was read or that the reviewer supplied. If the reviewer declines to supply it, nothing is saved and it says so."
-            },
-            {
-              "description": "Plan a menu from the user's own cookbooks, signed in",
-              "prompt": "Plan three vegetarian dinners for this week from the cookbooks I own.",
-              "tools_triggered": "search_my_books, get_recipe",
-              "expected_behavior": "Searches the recipes in the user's own cookbooks and proposes three dinners in a table, each with the recipe title, its book, the page number and links to cookcook.app, and a line on why it was chosen. It says the vegetarian check rests on ingredient names and that methods and quantities are in the books. Nothing is added to the grocery list or saved unless the user asks."
             }
           ],
           "negative": [
